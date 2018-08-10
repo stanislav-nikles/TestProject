@@ -48,8 +48,24 @@ public class NumberCollectionImpl implements NumberCollection {
         return new int[0];
     }
 
-    private int binarySearch(int[] arr, int key, int left, int right) {
-        return 0;
+    /**
+     *
+     * @param arr   - массив в котором находится элемент
+     * @param elem  - искомый элемент
+     * @param left  - начальный индекс массива
+     * @param right - конечный индекс массива
+     * @return      - индекс искомого элемента
+     */
+    private int binarySearch(int[] arr, int elem, int left, int right) {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == elem) {
+            return mid;
+        } else if (arr[mid] > elem) {
+            return binarySearch(arr, elem, left, mid);
+        } else {
+            return binarySearch(arr, elem, mid + 1, right);
+        }
     }
 
     public int getSize() {
