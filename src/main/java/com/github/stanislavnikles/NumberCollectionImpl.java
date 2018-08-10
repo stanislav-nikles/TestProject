@@ -37,11 +37,19 @@ public class NumberCollectionImpl implements NumberCollection {
     }
 
     public void optimize() {
+        // убираем пустые элементы массива
+        data = Arrays.copyOf(data, size);
+        // сортируем в порядке возростания
+        Arrays.sort(data);
         isOptimized = true;
     }
 
     public int[] select(int value1, int value2) {
         return new int[0];
+    }
+
+    private int binarySearch(int[] arr, int key, int left, int right) {
+        return 0;
     }
 
     public int getSize() {
