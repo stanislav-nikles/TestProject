@@ -45,26 +45,52 @@ public class NumberCollectionImpl implements NumberCollection {
     }
 
     public int[] select(int value1, int value2) {
-        return new int[0];
+
+        if (value2 < value1) throw new IllegalArgumentException("Входные параметры не корректны!");
+
+        int from = binarySearch(data, value1, 0, data.length, true);
+        int before = binarySearch(data, value2, from, data.length, false);
+
+        // определяем количество элементов вошедших в выборку
+        int count = before - from + 1;
+        int[] result = new int[count];
+
+        // копируем элементы в результирующий массив
+        System.arraycopy(data, from, result, 0, count);
+
+        return result;
     }
 
     /**
-     *
-     * @param arr   - массив в котором находится элемент
-     * @param elem  - искомый элемент
-     * @param left  - начальный индекс массива
-     * @param right - конечный индекс массива
-     * @return      - индекс искомого элемента
+     * @param arr   - Массив в котором находится элемент.
+     * @param elem  - Искомый элемент.
+     * @param left  - Начальный индекс массива.
+     * @param right - Конечный индекс массива.
+     * @param flag  - Флаг сработает если искомый элемент {@param elem} не будет найдет.
+     *              Если флаг {@param flag} установлен в {@literal true} будет найдет ближайший больший элемент.
+     *              Если флаг {@param flag} установлен в {@literal false} будет найдет ближайший меньший элемент.
+     * @return - индекс искомого элемента
      */
-    private int binarySearch(int[] arr, int elem, int left, int right) {
+    private int binarySearch(int[] arr, int elem, int left, int right, boolean flag) {
         int mid = left + (right - left) / 2;
+
+        // если искомый элемент не найден
+        if (left >= right) {
+            // возвращаем ближайший больший
+            if (flag == true) {
+                return left;
+            } else {
+                // иначе возвращаем ближайший меньший
+                return left - 1;
+            }
+        }
 
         if (arr[mid] == elem) {
             return mid;
         } else if (arr[mid] > elem) {
-            return binarySearch(arr, elem, left, mid);
+            return binarySearch(arr, elem, left, mid, flag);
         } else {
-            return binarySearch(arr, elem, mid + 1, right);
+            return binarySearch(arr, elem, mid + 1, right, flag);
         }
     }
 
